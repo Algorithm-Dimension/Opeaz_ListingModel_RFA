@@ -30,7 +30,7 @@ def filtres_page(request):
                 subform.generate_condition_fields(1)
                 subforms.append(subform)
 
-            # Effectuer le traitement des formulaires ici
+            # Effectuer le traitement des formulaires icii
             # ...
 
     return render(request, 'filtres.html', {'form': form, 'subforms': subforms, 'rfa': rfa})
