@@ -10,30 +10,27 @@ def home(request):
 def home(request):
     return render(request, 'index.html')
 
-
-
-
 from django.shortcuts import render
-from .forms import FiltresForm
+from .forms import ConditionForm
 
 def filtres_page(request):
-    form = FiltresForm()
+    form = ConditionForm(request.POST or None)
     rfa = None
+    subforms = []
 
-    if request.method == 'POST':
-        form = FiltresForm(request.POST)
+    if request.method == 'POST' and form.is_valid():
+        conditions_count = form.cleaned_data['conditions']
 
-        if form.is_valid():
-            filtre1 = form.cleaned_data['filtre1']
-            filtre2 = form.cleaned_data['filtre2']
-            nombre = form.cleaned_data['nombre']
-            date1 = form.cleaned_data['date1']
-            date2 = form.cleaned_data['date2']
+        if conditions_count < 1 or conditions_count > 5:
+            form.add_error('conditions', 'Le nombre de conditions doit être compris entre 1 et 5.')
+        else:
+            subforms = []
+            for i in range(1, conditions_count + 1):
+                subform = ConditionForm(prefix=f'condition_{i}')
+                subform.generate_condition_fields(1)
+                subforms.append(subform)
 
-            if filtre1 == 'CA' and filtre2 == 'lt' and nombre > 0 and date1 < date2:
-                rfa = 50
-            elif filtre1 == 'Benefice' and filtre2 == 'gt' and nombre > 0 and date1 < date2:
-                rfa = 50
+            # Effectuer le traitement des formulaires ici
+            # ...
 
-    return render(request, 'filtres.html', {'form': form, 'rfa': rfa})
-
+    return render(request, 'filtres.html', {'form': form, 'subforms': subforms, 'rfa': rfa})

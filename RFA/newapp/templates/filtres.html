@@ -5,6 +5,28 @@
     <input type="submit" value="Calculer">
 </form>
 
+{% if subforms %}
+    {% for subform in subforms %}
+        <h3>Condition</h3>
+        {{ subform.filtre1.errors }}
+        {{ subform.filtre1.label_tag }}: {{ subform.filtre1 }}
+        <br>
+        {{ subform.operateur1.errors }}
+        {{ subform.operateur1.label_tag }}: {{ subform.operateur1 }}
+        <br>
+        {{ subform.valeur1.errors }}
+        {{ subform.valeur1.label_tag }}: {{ subform.valeur1 }}
+        <br>
+        {{ subform.date11.errors }}
+        {{ subform.date11.label_tag }}: {{ subform.date11 }}
+        <br>
+        {{ subform.date21.errors }}
+        {{ subform.date21.label_tag }}: {{ subform.date21 }}
+        <br>
+        <br>
+    {% endfor %}
+{% endif %}
+
 {% if rfa %}
     <p>Le RFA est de 50$.</p>
 {% endif %}
