@@ -1,0 +1,7 @@
+asgiref==3.6.0
+Django==4.2.1
+libxml2-python==2.10.3
+meson==1.1.0
+protobuf==4.21.12
+PyYAML==6.0
+sqlparse==0.4.4
