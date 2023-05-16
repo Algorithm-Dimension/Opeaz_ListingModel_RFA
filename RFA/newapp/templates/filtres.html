@@ -7,21 +7,21 @@
 
 {% if subforms %}
     {% for subform in subforms %}
-        <h3>Condition</h3>
-        {{ subform.filtre1.errors }}
-        {{ subform.filtre1.label_tag }}: {{ subform.filtre1 }}
+        <h3>Condition {{ forloop.counter }} </h3>
+        {{ subform.filtre.errors }}
+        {{ subform.filtre.label_tag }}: {{ subform.filtre }}
         <br>
-        {{ subform.operateur1.errors }}
-        {{ subform.operateur1.label_tag }}: {{ subform.operateur1 }}
+        {{ subform.operateur.errors }}
+        {{ subform.operateur.label_tag }}: {{ subform.operateur }}
         <br>
-        {{ subform.valeur1.errors }}
-        {{ subform.valeur1.label_tag }}: {{ subform.valeur1 }}
+        {{ subform.valeur.errors }}
+        {{ subform.valeur.label_tag }}: {{ subform.valeur }}
         <br>
-        {{ subform.date11.errors }}
-        {{ subform.date11.label_tag }}: {{ subform.date11 }}
+        {{ subform.date1.errors }}
+        {{ subform.date1.label_tag }}: {{ subform.date1 }}
         <br>
-        {{ subform.date21.errors }}
-        {{ subform.date21.label_tag }}: {{ subform.date21 }}
+        {{ subform.date2.errors }}
+        {{ subform.date2.label_tag }}: {{ subform.date2 }}
         <br>
         <br>
     {% endfor %}

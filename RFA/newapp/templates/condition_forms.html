@@ -1,0 +1,103 @@
+<form method="post">
+    {% csrf_token %}
+    {{ condition_number_form.as_p }}
+
+    <input type="submit" value="Calculer">
+</form>
+<form method="post">
+{% if forms %}
+    {% for form in forms %}
+        <h3>Condition {{ forloop.counter }} </h3>
+            {% csrf_token %}
+<!--    {{ form.as_table }}-->
+    <table>
+          <label for="field10">Field 1:</label>
+  <select id="field10" name="field10">
+    <option value="option1">Option 1</option>
+    <option value="option2">Option 2</option>
+    <option value="option3">Option 3</option>
+  </select>
+
+  <label for="field20">Field 2:</label>
+  <select id="field20" name="field20">
+    <option value="value1">Value 1</option>
+    <option value="value2">Value 2</option>
+    <option value="value3">Value 3</option>
+  </select>
+        <form id="field1" name="field1">
+        {{ form.what.label_tag }} {{ form.what }}
+        </form>
+&nbsp
+                <form id="field2" name="field2">
+
+                    {{ form.who.label_tag }} {{ form.who }}</form>
+        &nbsp
+        <form id="field3" name="field3">
+
+            {{ form.unit.label_tag }} {{ form.unit }}</form>
+    </table>
+    {% endfor %}
+
+    {% csrf_token %}
+    {{ entire_form.as_p }}
+
+    <input type="submit" value="Calculer">
+</form>
+{% endif %}
+<script>
+  const field1 = document.getElementById('field1');
+  const field2 = document.getElementById('field2');
+  const field3 = document.getElementById('field3');
+  function updateFormFields() {
+    const selectedValue = field1.value;
+
+    if (selectedValue === 'Tête de gondole') {
+<!--      field2.value = 'Value 1';-->
+      field3.disabled = true;
+    } else if (selectedValue === 'gondole') {
+      field3.disabled = true;
+
+  }
+
+  field1.addEventListener('change', function() {
+    updateFormFields();
+  });
+
+  // Initial update of form fields
+  updateFormFields();
+</script>
+
+<script>
+  const field1 = document.getElementById('field10');
+  const field2 = document.getElementById('field20');
+
+  // Disable specific options in field2 based on the selected value of field1
+  function updateField2Options() {
+    const selectedValue = field1.value;
+
+    // Enable all options in field2
+    for (let i = 0; i < field2.options.length; i++) {
+      field2.options[i].disabled = false;
+    }
+
+    // Disable specific options based on selectedValue
+    if (selectedValue === 'option1') {
+      field2.options[2].disabled = true;  // Disable Value 3
+    } else if (selectedValue === 'option2') {
+      field2.options[0].disabled = true;  // Disable Value 1
+    } else if (selectedValue === 'option3') {
+      field2.options[1].disabled = true;  // Disable Value 2
+    }
+  }
+
+  // Call the updateField2Options function when field1 value changes
+  field1.addEventListener('change', function() {
+    updateField2Options();
+  });
+
+  // Initial update of field2 options
+  updateField2Options();
+</script>
+
+
+

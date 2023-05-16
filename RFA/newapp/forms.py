@@ -1,27 +1,35 @@
 from django import forms
+from django.forms import ModelForm, DateInput
+
+from django import forms
+from django.forms import ModelForm
+from .models import Condition
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 
-class ConditionForm(forms.Form):
-    FILTRE_CHOICES = (
-        ('CA', 'Chiffre d\'affaires'),
-        ('Benefice', 'Bénéfice'),
-    )
-    OPERATOR_CHOICES = (
-        ('lt', '<'),
-        ('gt', '>'),
-        ('eq', '='),
-    )
+class DateInput(forms.DateInput):
+    input_type = 'date'
 
-    conditions = forms.IntegerField(min_value=1, max_value=5, label='Nombre de conditions')
 
-    def generate_condition_fields(self, conditions_count):
-        self.fields.clear()  # Supprimer tous les champs existants
+class ConditionForm(ModelForm):
 
-        for i in range(1, conditions_count + 1):
-            self.fields[f'filtre{i}'] = forms.ChoiceField(choices=self.FILTRE_CHOICES, label=f'Filtre {i}')
-            self.fields[f'operateur{i}'] = forms.ChoiceField(choices=self.OPERATOR_CHOICES, label=f'Opérateur {i}')
-            self.fields[f'valeur{i}'] = forms.FloatField(label=f'Valeur {i}')
-            self.fields[f'date1{i}'] = forms.DateField(input_formats=['%Y-%m-%d'],
-                                                       help_text='Format attendu : YYYY-MM-DD', label=f'Date 1 {i}')
-            self.fields[f'date2{i}'] = forms.DateField(input_formats=['%Y-%m-%d'],
-                                                       help_text='Format attendu : YYYY-MM-DD', label=f'Date 2 {i}')
+    class Meta:
+        model = Condition
+        fields = '__all__'
+        # fields = ['what', 'who', 'operator', 'unit', 'start_date', 'end_date']
+        widgets = {
+            'start_date': DateInput(),
+            'end_date': DateInput()
+        }
+
+class EntireConditionForm(forms.Form):
+    condition = forms.CharField(label='Entrez votre ensemble de conditions')
+
+class ConditionNumberForm(forms.Form):
+    condition_number = forms.IntegerField(label='Nombre de conditions',
+                                          validators=[
+                                              MinValueValidator(1, message='Veuillez entrer au moins une condition'),
+                                              MaxValueValidator(5, message='Vous ne pouvez entrer plus de 5 conditions'),
+                                          ]
+                                          )
+
