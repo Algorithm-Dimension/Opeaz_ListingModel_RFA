@@ -1,0 +1,45 @@
+/* style.css */
+
+body {
+  background-color: #efeeebeb;
+  font-family: Arial, sans-serif;
+}
+
+select,
+input {
+  margin-right: 15px; /* Ajoute 10 pixels de marge à droite de chaque champ */
+}
+
+label {
+  font-weight: bold;
+  color: #434037;
+}
+
+.form {
+  padding: 10px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+h4 {
+  margin-top: 0;
+  color: #434037;
+}
+
+.btn {
+  background-color: #a8a294;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  font-weight: bold;
+  width: 400px;
+}
+
+input[type="submit"].btn {
+  width: 130px;
+
+    padding-bottom: 10px; /* Add desired bottom spacing */
+
+}

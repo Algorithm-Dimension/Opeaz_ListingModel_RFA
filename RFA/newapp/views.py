@@ -1,9 +1,6 @@
-from django.shortcuts import render
 from django.http import HttpResponse
-from django import forms
-from django.forms import ModelForm, DateInput
-
-
+from django.shortcuts import render
+from .forms import SimpleConditionForm, ComparativeConditionForm
 from .models import Pharmacy
 # Create your views here.
 
@@ -16,13 +13,12 @@ def home(request):
 def home(request):
     return render(request, 'index.html')
 
-from django.shortcuts import render
-from .forms import ConditionForm
-
 
 def filtres_page(request):
-    condition_form = ConditionForm()
-    condition_forms = [condition_form]
+    simple_condition_form = SimpleConditionForm()
+    comparative_condition_form = ComparativeConditionForm()
+    condition_forms = [simple_condition_form]
 
-    return render(request, 'filtres.html', {'forms': condition_forms, 'cond_form':condition_form})
+    return render(request, 'filtres2.html', {'forms': condition_forms, 'simple_condition_form': simple_condition_form,
+                                            'comparative_condition_form': comparative_condition_form})
 

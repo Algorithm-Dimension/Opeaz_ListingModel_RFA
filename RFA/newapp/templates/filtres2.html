@@ -1,0 +1,29 @@
+{% load static %}
+
+<head> <link rel="stylesheet" href="{% static 'style.css' %}">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+</head>
+<body>
+    <div id="form-container">
+<!--        <div id="simple-container", style="width: 1050px;"> </div>-->
+<!--        <div id="comparative-container", style="width: 1350px;"> </div>-->
+    </div>
+
+<button type="button" id="and-btn" class="btn" style="width: 100px; display: none;">ET</button>
+    <button type="button" id="or-btn" class="btn" style="width: 100px; display: none;"> OU </button>
+    <br> <br>
+  <button type="button" id="add-simple" class="btn" style="width: 170px;"> Ajouter Condition Simple </button>
+  <button type="button" id="add-comparative" class="btn" style="width: 170px;"> Ajouter Condition Comparative </button>
+
+
+  {% include 'forms.html' %}
+
+
+
+</body>
+
+<script>
+
+
+</script>

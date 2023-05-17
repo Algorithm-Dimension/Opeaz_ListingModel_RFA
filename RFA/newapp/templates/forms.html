@@ -1,0 +1,41 @@
+<script>
+  $(document).ready(function() {
+    var formCount = 1;
+
+    function addForm(formHTML, width) {
+      var htmlString =
+
+      `<div class="form">
+      <h4>Condition ${formCount}</h4>
+      <div style="width: ${width}px; line-height: 3;">
+      {% csrf_token %}
+      ${formHTML}
+      </div> </div>
+      <br><br>`;
+      $('#form-container').append(htmlString);
+      formCount++;
+    }
+
+    function addButtonClick(simpleFormHTML, width) {
+    addForm(simpleFormHTML, width)
+    var addButton_and = document.getElementById("and-btn");
+    var addButton_or = document.getElementById("or-btn");
+    addButton_and.style.display = "inline-block";
+    addButton_or.style.display = "inline-block";
+
+    }
+    $('#add-simple').click(function() {
+      var simpleFormHTML = `{{ simple_condition_form.as_table }}`;
+     addButtonClick(simpleFormHTML, 1050);
+
+
+// Revert the display property
+
+    });
+
+    $('#add-comparative').click(function() {
+      var comparativeFormHTML = `{{ comparative_condition_form.as_table }}`;
+    addButtonClick(comparativeFormHTML, 1300);
+    });
+  });
+</script>
