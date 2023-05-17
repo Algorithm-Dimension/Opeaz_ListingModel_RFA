@@ -35,6 +35,13 @@ class Condition(models.Model):
         ('quantity', 'quantité')
     )
 
+    PHARMA_CHOICES = (
+        ('p1', 'pharma1'),
+        ('p2', 'pharma2'),
+        ('p3', 'pharma3')
+    )
+
+    pharma = models.CharField(max_length=100, choices=PHARMA_CHOICES, verbose_name='Pharma', default='p1')
     what = models.CharField(max_length=100, choices=WHAT_CHOICES, verbose_name='Quoi', default='CA')
     who = models.CharField(max_length=100, choices=WHO_CHOICES, null=True, verbose_name='Qui', blank=True)
     operator = models.CharField(max_length=100, choices=OPERATOR_CHOICES, null=True, verbose_name='Opérateur', blank=True)
