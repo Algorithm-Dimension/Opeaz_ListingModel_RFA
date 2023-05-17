@@ -26,8 +26,7 @@ h4 {
   margin-top: 0;
   color: #434037;
 }
-
-.btn {
+.btn, .form-btn {
   background-color: #a8a294;
   padding: 10px 20px;
   border: none;

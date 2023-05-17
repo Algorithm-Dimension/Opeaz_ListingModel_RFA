@@ -1,41 +1,94 @@
 <script>
   $(document).ready(function() {
+     var btnValue = "";
+
     var formCount = 1;
+
+    function addBtnValueInput(newForm){
+      var newInput = document.createElement('input');
+      newInput.setAttribute('name', 'btn_type_' + formCount);
+      newInput.setAttribute('id', 'btn_type_' + formCount);
+      newInput.style.display = 'none';
+      newInput.value = btnValue;
+      newForm.appendChild(newInput);
+
+}
 
     function addForm(formHTML, width) {
       var htmlString =
 
-      `<div class="form">
-      <h4>Condition ${formCount}</h4>
+      `<div class="form" id="form-${formCount}">
+      <h4> ${btnValue} CONDITION ${formCount}</h4>
       <div style="width: ${width}px; line-height: 3;">
       {% csrf_token %}
       ${formHTML}
       </div> </div>
       <br><br>`;
       $('#form-container').append(htmlString);
+      var formContainer = document.getElementById('form-container');
+       addBtnValueInput(formContainer);
+
+      // Change name of each field
+      $('#form-' + formCount + ' :input').each(function() {
+      var fieldName = $(this).attr('name');
+      $(this).attr('name', fieldName + '_' + formCount);
+    });
       formCount++;
     }
 
-    function addButtonClick(simpleFormHTML, width) {
-    addForm(simpleFormHTML, width)
-    var addButton_and = document.getElementById("and-btn");
-    var addButton_or = document.getElementById("or-btn");
-    addButton_and.style.display = "inline-block";
-    addButton_or.style.display = "inline-block";
+  function enableAddButtons() {
+    var addButtonSimple = $('#add-simple');
+    var addButtonComparative = $('#add-comparative');
+    addButtonSimple.removeAttr('disabled');
+    addButtonComparative.removeAttr('disabled');
+  }
 
-    }
-    $('#add-simple').click(function() {
-      var simpleFormHTML = `{{ simple_condition_form.as_table }}`;
-     addButtonClick(simpleFormHTML, 1050);
+  function disableAddButtons() {
+    var addButtonSimple = $('#add-simple');
+    var addButtonComparative = $('#add-comparative');
+    addButtonSimple.attr('disabled', 'disabled');
+    addButtonComparative.attr('disabled', 'disabled');
+  }
 
-
-// Revert the display property
-
+  function addButtonClick(simpleFormHTML, width) {
+    addForm(simpleFormHTML, width);
+    $('.form-btn').each(function() {
+    $(this).show();
     });
 
-    $('#add-comparative').click(function() {
-      var comparativeFormHTML = `{{ comparative_condition_form.as_table }}`;
-    addButtonClick(comparativeFormHTML, 1300);
-    });
+<!--        var addButtonAnd = $('#and-btn');-->
+
+<!--    var addButtonAnd = document.getElementById("and-btn");-->
+<!--    var addButtonOr = document.getElementById("or-btn");-->
+<!--    var addButtonOr = document.getElementById("or-btn");-->
+<!--    addButtonAnd.show()-->
+<!--    addButtonAnd.style.display = "inline-block";-->
+<!--    addButtonAnd.style.display = "inline-block";-->
+<!--    addButtonOr.style.display = "inline-block";-->
+    disableAddButtons();
+
+  }
+
+  $('#add-simple').click(function() {
+    var simpleFormHTML = `{{ simple_condition_form.as_table }}`;
+    addButtonClick(simpleFormHTML, 1050);
   });
+
+  $('#add-comparative').click(function() {
+    var comparativeFormHTML = `{{ comparative_condition_form.as_table }}`;
+    addButtonClick(comparativeFormHTML, 1300);
+  });
+
+  $('#and-btn').click(function() {
+    enableAddButtons();
+    btnValue = "ET";
+  });
+  $('#or-btn').click(function() {
+    enableAddButtons();
+    btnValue = "OU";
+
+  });
+});
+
+
 </script>
