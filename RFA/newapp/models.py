@@ -2,7 +2,7 @@ from django.db import models
 
 WHAT_CHOICES = (
     ('CA', 'Chiffre d\'affaires'),
-    ('Benefice', 'Bénéfice'),
+    ('MEA', 'Mise en avant'),
     ('gondole', 'Tête de gondole')
 )
 WHO_CHOICES = (
@@ -27,6 +27,12 @@ PHARMA_CHOICES = (
     ('p3', 'pharma3')
 )
 
+TYPE_CHOICES = (
+    ('T1', 'TYPE_1'),
+    ('T2', 'TYPE_2'),
+    ('T3', 'TYPE_3')
+)
+
 # Create your models here.
 class Pharmacy(models.Model):
     name = models.CharField(max_length=100)
@@ -42,6 +48,7 @@ class Pharmacy(models.Model):
 class SimpleCondition(models.Model):
     what = models.CharField(max_length=100, choices=WHAT_CHOICES, verbose_name='Quoi', default='CA')
     who = models.CharField(max_length=100, choices=WHO_CHOICES, null=True, verbose_name='Qui', blank=True)
+    type = models.CharField(max_length=100, choices=TYPE_CHOICES, null=True, verbose_name='Type', blank=True)
     operator = models.CharField(max_length=100, choices=OPERATOR_CHOICES, null=True, verbose_name='Opérateur', blank=True)
     quantity = models.IntegerField(verbose_name='Quantité', null=True, blank=True)
     unit = models.CharField(max_length=100, choices=UNIT_CHOICES, null=True, verbose_name='Unité', blank=True)
