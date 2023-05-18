@@ -19,6 +19,6 @@ def filtres_page(request):
     comparative_condition_form = ComparativeConditionForm()
     condition_forms = [simple_condition_form]
 
-    return render(request, 'filtres2.html', {'forms': condition_forms, 'simple_condition_form': simple_condition_form,
+    return render(request, 'filtres.html', {'forms': condition_forms, 'simple_condition_form': simple_condition_form,
                                             'comparative_condition_form': comparative_condition_form})
 

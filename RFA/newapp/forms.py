@@ -17,12 +17,10 @@ class SimpleConditionForm(ModelForm):
         model = SimpleCondition
         fields = '__all__'
         widgets = {
+            # 'what': forms.Select(attrs={'class': 'what'}),
             'start_date': DateInput(),
             'end_date': DateInput()
         }
-
-    def add_prefix(self, field_name):
-        return f'{field_name}_1'
 
 
 class ComparativeConditionForm(ModelForm):

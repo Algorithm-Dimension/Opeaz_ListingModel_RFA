@@ -1,128 +1,32 @@
 {% load static %}
 
 <head> <link rel="stylesheet" href="{% static 'style.css' %}">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 </head>
-
+<body>
 <form method="post">
-  <div id="forms-container">
-    <div class="form">
-      <h4>CONDITION 1</h4>
-      <div id="cond_form_1">
-        {% csrf_token %}
-        {{ simple_condition_form.as_table }}
-      </div>
+         {% csrf_token %}
+
+    <div id="form-container">
     </div>
-  </div>
-  <br>
-  <button type="button" id="add-form-btn" class="btn"> + </button>
-  <button type="button" id="add-form-btn-or" class="btn"> OU </button>
-  <input type="submit" value="Calculer" class="btn">
+
+<button type="button" id="and-btn" class="form-btn" style="width: 100px; display: none;">ET</button>
+    <button type="button" id="or-btn" class="form-btn" style="width: 100px; display: none;"> OU </button>
+    <br> <br>
+  <button type="button" id="add-simple" class="btn" style="width: 170px;"> Ajouter Condition Simple </button>
+  <button type="button" id="add-comparative" class="btn" style="width: 170px;"> Ajouter Condition Comparative </button>
+  <br><br>
+    <input type="submit" value="Calculer" class="form-btn" style="width: 100px; display: none;">
+
 </form>
+  {% include 'forms.html' %}
+
+
+
+</body>
 
 <script>
-  function updateField2Options(whatElement, unitElement) {
-      var selectedValue = whatElement.value;
-
-      // Enable all options in unit
-      for (let i = 0; i < unitElement.options.length; i++) {
-        unitElement.options[i].disabled = false;
-      }
-
-      // Disable specific options based on selectedValue
-      if (selectedValue === 'gondole') {
-        unitElement.options[1].disabled = true;
-        unitElement.options[2].disabled = true;
-        unitElement.options[3].selected = true;
-      }
-    }
 
 
-  document.addEventListener('DOMContentLoaded', function() {
-    var formCount = {{ 1 }};
-
-    // Function to add a new form
-    function addForm(btnValue) {
-      var formContainer = document.getElementById('forms-container');
-      var newForm = document.createElement('div');
-      newForm.className = 'form';
-
-      var newHeading = document.createElement('h4');
-      newHeading.textContent = btnValue + ' CONDITION ' + (formCount + 1);
-      newForm.appendChild(newHeading);
-
-      var newInput = document.createElement('input');
-      newInput.setAttribute('name', 'btn_type_' + (formCount + 1));
-      newInput.setAttribute('id', 'btn_type_' + (formCount + 1));
-          newInput.style.display = 'none';
-          newInput.value = btnValue;
-
-      // Add the input element to the form
-      newForm.appendChild(newInput);
-
-      var formTable = document.querySelector('#cond_form_1');
-      if (formTable) {
-        var cloneTable = formTable.cloneNode(true);
-        var fields = cloneTable.querySelectorAll('input, select');
-        fields.forEach(function(field) {
-          var fieldName = field.getAttribute('name');
-          var fieldId = field.getAttribute('id');
-          if (fieldName && fieldId) {
-            field.setAttribute('name', fieldName.replace('1', (formCount + 1)));
-            field.setAttribute('id', fieldId.replace('1', (formCount + 1)));
-
-          }
-
-        });
-        newForm.appendChild(cloneTable);
-      }
-
-      formContainer.appendChild(newForm);
-
-      formCount++;
-      var whatId = `id_what_${formCount}`;
-      var unitId = `id_unit_${formCount}`;
-      var whatElement = document.getElementById(whatId);
-      var unitElement = document.getElementById(unitId);
-
-      // Add event listener to each what element
-      whatElement.addEventListener('change', function() {
-        updateField2Options(whatElement, unitElement);
-      });
-
-      // Initial update of field2 options
-      updateField2Options(whatElement, unitElement);
-
-    }
-
-    // Event listener for the "Add Form" button
-    var addFormBtn = document.getElementById('add-form-btn');
-    addFormBtn.addEventListener('click', function() {
-      addForm('ET');
-    });
-
-
-    var addFormBtn = document.getElementById('add-form-btn-or');
-    addFormBtn.addEventListener('click', function() {
-      addForm('OU');
-    });
-
-    // Disable specific options in unit based on the selected value of what
-
-// Update field for first form
-    var whatElement = document.getElementById('id_what_1');
-    var unitElement = document.getElementById('id_unit_1');
-<!--    var unitElement = document.getElementById('unit_1');-->
-
-      // Add event listener to each what element
-      whatElement.addEventListener('change', function() {
-        updateField2Options(whatElement, unitElement);
-      });
-
-      // Initial update of field2 options
-      updateField2Options(whatElement, unitElement);
-
-  });
 </script>
-
-

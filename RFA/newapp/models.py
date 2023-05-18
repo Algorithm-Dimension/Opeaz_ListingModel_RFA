@@ -40,7 +40,6 @@ class Pharmacy(models.Model):
 
 
 class SimpleCondition(models.Model):
-    pharma = models.CharField(max_length=100, choices=PHARMA_CHOICES, verbose_name='Pharma')
     what = models.CharField(max_length=100, choices=WHAT_CHOICES, verbose_name='Quoi', default='CA')
     who = models.CharField(max_length=100, choices=WHO_CHOICES, null=True, verbose_name='Qui', blank=True)
     operator = models.CharField(max_length=100, choices=OPERATOR_CHOICES, null=True, verbose_name='Opérateur', blank=True)
@@ -51,7 +50,6 @@ class SimpleCondition(models.Model):
 
 
 class ComparativeCondition(models.Model):
-    pharma = models.CharField(max_length=100, choices=PHARMA_CHOICES, verbose_name='Pharma')
     first_what = models.CharField(max_length=100, choices=WHAT_CHOICES, verbose_name='Quoi 1', default='CA')
     first_start_date = models.DateField(null=True, verbose_name='Date de début 1', blank=True)
     first_end_date = models.DateField(null=True, verbose_name='Date de fin 1', blank=True)
