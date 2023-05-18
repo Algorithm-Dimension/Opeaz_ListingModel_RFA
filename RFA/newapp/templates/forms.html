@@ -1,5 +1,22 @@
 <script>
+
   $(document).ready(function() {
+
+  // Disable group and pharmacy choice before choosing the type
+    disableButton('id_pharmacy');
+
+      $('#id_type').on('change', function() {
+      var chosenType = document.getElementById(`id_type`).value;
+      if (chosenType === 'group') {
+            enableButton('id_group');
+            disableButton('id_pharmacy');
+            }
+      else {
+          disableButton('id_group');
+          enableButton('id_pharmacy');
+    }
+  });
+
      var btnValue = "";
 
     var formCount = 1;
@@ -38,18 +55,24 @@
       formCount++;
     }
 
+   function disableButton(id){
+   var btn = $('#' + id);
+   btn.attr('disabled', 'disabled');
+   }
+
+   function enableButton(id){
+   var btn = $('#' + id);
+   btn.removeAttr('disabled');
+   }
+
   function enableAddButtons() {
-    var addButtonSimple = $('#add-simple');
-    var addButtonComparative = $('#add-comparative');
-    addButtonSimple.removeAttr('disabled');
-    addButtonComparative.removeAttr('disabled');
+    enableButton('add-simple');
+    enableButton('add-comparative');
   }
 
   function disableAddButtons() {
-    var addButtonSimple = $('#add-simple');
-    var addButtonComparative = $('#add-comparative');
-    addButtonSimple.attr('disabled', 'disabled');
-    addButtonComparative.attr('disabled', 'disabled');
+     disableButton('add-simple');
+     disableButton('add-comparative');
   }
 
 

@@ -3,7 +3,7 @@ from django.forms import ModelForm, DateInput
 
 from django import forms
 from django.forms import ModelForm
-from .models import SimpleCondition, ComparativeCondition
+from .models import SimpleCondition, ComparativeCondition, Pharmacy
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 
@@ -36,7 +36,22 @@ class ComparativeConditionForm(ModelForm):
         }
 
     def add_prefix(self, field_name):
-        return f'comp_{field_name}_1'
+        return f'comp_{field_name}'
+
+
+class PharmaForm(forms.Form):
+    TYPE_CHOICES = (
+        ('group', 'Group'),
+        ('pharma', 'Pharmacie'),
+    )
+
+    type = forms.ChoiceField(choices=TYPE_CHOICES, label='TYPE')
+    group = forms.ModelChoiceField(queryset=Pharmacy.objects.all().values_list('group', flat=True).distinct(),
+                                   label='GROUPE')
+
+    pharmacy = forms.ModelChoiceField(queryset=Pharmacy.objects.all().values_list('name', flat=True).distinct(),
+                                      label='PHARMACIE')
+
 
 
 

@@ -8,8 +8,13 @@
 <form method="post">
          {% csrf_token %}
 
+
     <div id="form-container">
+            <div class="group-pharma-choice">
+        {% csrf_token %}
+        {{ pharma_form }}
     </div>
+         </div>
 
 <button type="button" id="and-btn" class="form-btn" style="width: 100px; display: none;">ET</button>
     <button type="button" id="or-btn" class="form-btn" style="width: 100px; display: none;"> OU </button>
@@ -27,6 +32,5 @@
 </body>
 
 <script>
-
 
 </script>

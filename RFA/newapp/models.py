@@ -21,12 +21,6 @@ UNIT_CHOICES = (
     ('quantity', 'quantité')
 )
 
-PHARMA_CHOICES = (
-    ('p1', 'pharma1'),
-    ('p2', 'pharma2'),
-    ('p3', 'pharma3')
-)
-
 TYPE_CHOICES = (
     ('T1', 'TYPE_1'),
     ('T2', 'TYPE_2'),
@@ -39,7 +33,7 @@ class Pharmacy(models.Model):
     group = models.CharField(max_length=100, null=True)
     labo_name = models.CharField(max_length=100, null=True)
     type = models.CharField(max_length=100, null=True)
-    sub_type = models.CharField(max_length=100, null=True)
+    subtype = models.CharField(max_length=100, null=True)
     ca = models.IntegerField(null=True)
     start_date = models.DateTimeField(null=True)
     end_date = models.DateTimeField(null=True)

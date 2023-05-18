@@ -3,7 +3,7 @@
 import os
 import sys
 import django
-
+# from newapp.data_handler import DataHandler
 
 def main():
     """Run administrative tasks."""
@@ -23,4 +23,6 @@ def main():
 
 
 if __name__ == '__main__':
+    # dh = DataHandler()
+    # dh.file_to_db()
     main()
