@@ -3,7 +3,7 @@ from django.forms import ModelForm, DateInput
 
 from django import forms
 from django.forms import ModelForm
-from .models import SimpleCondition, ComparativeCondition, Pharmacy
+from .models import SimpleCondition, ComparativeCondition, Pharmacy, NoCondition
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 
@@ -39,6 +39,18 @@ class ComparativeConditionForm(ModelForm):
         return f'comp_{field_name}'
 
 
+class NoConditionForm(ModelForm):
+
+    class Meta:
+        model = NoCondition
+        fields = '__all__'
+        widgets = {
+            # 'what': forms.Select(attrs={'class': 'what'}),
+            'start_date': DateInput(),
+            'end_date': DateInput()
+        }
+
+
 class PharmaForm(forms.Form):
     TYPE_CHOICES = (
         ('group', 'Group'),
@@ -51,9 +63,3 @@ class PharmaForm(forms.Form):
 
     pharmacy = forms.ModelChoiceField(queryset=Pharmacy.objects.all().values_list('name', flat=True).distinct(),
                                       label='PHARMACIE')
-
-
-
-
-
-

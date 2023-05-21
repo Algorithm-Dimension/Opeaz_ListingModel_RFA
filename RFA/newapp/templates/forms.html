@@ -21,6 +21,8 @@
 
     var formCount = 1;
 
+<!--### Ajouter la valeur de Et ou Ou dans un form pour le recuperer en back-->
+
     function addBtnValueInput(newForm){
       var newInput = document.createElement('input');
       newInput.setAttribute('name', 'btn_type_' + formCount);
@@ -41,6 +43,7 @@
       ${formHTML}
       </div> </div>
       <br><br>`;
+
       $('#form-container').append(htmlString);
       var formContainer = document.getElementById('form-container');
        addBtnValueInput(formContainer);
@@ -68,11 +71,13 @@
   function enableAddButtons() {
     enableButton('add-simple');
     enableButton('add-comparative');
+    enableButton('add-no-condition');
   }
 
   function disableAddButtons() {
      disableButton('add-simple');
      disableButton('add-comparative');
+     disableButton('add-no-condition');
   }
 
 
@@ -119,6 +124,11 @@ function clickOnAddForm(simpleFormHTML, width) {
 
   $('#add-comparative').click(function() {
     var comparativeFormHTML = `{{ comparative_condition_form.as_table }}`;
+    clickOnAddForm(comparativeFormHTML, 1300);
+  });
+
+  $('#add-no-condition').click(function() {
+    var comparativeFormHTML = `{{ no_condition_form.as_table }}`;
     clickOnAddForm(comparativeFormHTML, 1300);
   });
 
