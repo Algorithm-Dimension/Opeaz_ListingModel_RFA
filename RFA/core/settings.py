@@ -40,10 +40,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    "newapp"
+    "newapp",
+    'rest_framework',
+
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -73,20 +77,40 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
+REST_FRAMEWORK = {
+'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ]
+}
+
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
+#
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'betamoon',
+#         'USER': 'remy',
+#         'PASSWORD': 'Aviadda1906',
+#         'HOST': 'betamoon.c0oaoq9odgfz.eu-west-3.rds.amazonaws.com',
+#         'PORT': '3306',
+#     }
+# }
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'betamoon',
-        'USER': 'remy',
-        'PASSWORD': 'Aviadda1906',
-        'HOST': 'betamoon.c0oaoq9odgfz.eu-west-3.rds.amazonaws.com',
+        'NAME': 'opeaz',
+        'USER': 'admin',
+        'PASSWORD': 'Ordinateur!',
+        'HOST': 'opeaz-rfa.c0oaoq9odgfz.eu-west-3.rds.amazonaws.com',
         'PORT': '3306',
     }
 }
+
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -134,8 +158,11 @@ from django.conf import settings
 settings.configure(
     INSTALLED_APPS=[
         'myapp',
+        'newapp',
+        'rest_framework',
+        'corsheaders',
         'django.contrib.auth',
-        'django.contrib.contenttypes',
+        'django.contrib.contenttypes'
         # ...
     ],
     # ...

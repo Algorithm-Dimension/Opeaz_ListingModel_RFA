@@ -89,10 +89,10 @@ function clickOnAddForm(simpleFormHTML, width) {
   });
   disableAddButtons();
 
-  var whatElement = document.getElementById(`id_what_${formCount - 1}`);
-  var unitElement = document.getElementById(`id_unit_${formCount - 1}`);
+  var whatElement = document.getElementById(`id_simple_what_${formCount - 1}`);
+  var unitElement = document.getElementById(`id_simple_unit_${formCount - 1}`);
 
-  $(`#id_what_${formCount - 1}`).on('change', function() {
+  $(`#id_simple_what_${formCount - 1}`).on('change', function() {
     disableChoices(whatElement, unitElement);
   });
 }

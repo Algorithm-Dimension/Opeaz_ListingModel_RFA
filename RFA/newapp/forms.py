@@ -22,6 +22,9 @@ class SimpleConditionForm(ModelForm):
             'end_date': DateInput()
         }
 
+    def add_prefix(self, field_name):
+        return f'simple_{field_name}'
+
 
 class ComparativeConditionForm(ModelForm):
 
@@ -49,6 +52,9 @@ class NoConditionForm(ModelForm):
             'start_date': DateInput(),
             'end_date': DateInput()
         }
+
+    def add_prefix(self, field_name):
+        return f'no_{field_name}'
 
 
 class PharmaForm(forms.Form):
