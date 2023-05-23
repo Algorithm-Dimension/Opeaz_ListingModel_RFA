@@ -31,14 +31,20 @@ TYPE_CHOICES = (
 
 
 class Pharmacy(models.Model):
-    name = models.CharField(max_length=100)
+    cip = models.IntegerField()
+    pharma_name = models.CharField(max_length=100)
     group = models.CharField(max_length=100, null=True)
     labo_name = models.CharField(max_length=100, null=True)
+    product = models.CharField(max_length=100, null=True)
     type = models.CharField(max_length=100, null=True)
     subtype = models.CharField(max_length=100, null=True)
     ca = models.IntegerField(null=True)
+    unit = models.IntegerField(null=True)
+    year = models.IntegerField(null=True)
     start_date = models.DateTimeField(null=True)
     end_date = models.DateTimeField(null=True)
+    unit_evolution = models.FloatField(null=True)
+    ca_evolution = models.FloatField(null=True)
 
 
 class SimpleCondition(models.Model):

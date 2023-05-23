@@ -67,5 +67,5 @@ class PharmaForm(forms.Form):
     group = forms.ModelChoiceField(queryset=Pharmacy.objects.all().values_list('group', flat=True).distinct(),
                                    label='GROUPE')
 
-    pharmacy = forms.ModelChoiceField(queryset=Pharmacy.objects.all().values_list('name', flat=True).distinct(),
+    pharmacy = forms.ModelChoiceField(queryset=Pharmacy.objects.all().values_list('pharma_name', flat=True).distinct(),
                                       label='PHARMACIE')
