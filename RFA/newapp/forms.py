@@ -6,6 +6,8 @@ from django.forms import ModelForm
 from .models import SimpleCondition, ComparativeCondition, Pharmacy, NoCondition
 from django.core.validators import MinValueValidator, MaxValueValidator
 
+from .serializers import PharmacySerializer
+
 
 class DateInput(forms.DateInput):
     input_type = 'date'
@@ -48,9 +50,12 @@ class PharmaForm(forms.Form):
         ('pharma', 'Pharmacie'),
     )
 
-    type = forms.ChoiceField(choices=TYPE_CHOICES, label='TYPE')
-    group = forms.ModelChoiceField(queryset=Pharmacy.objects.all().values_list('group', flat=True).distinct(),
-                                   label='GROUPE')
+    pharmas = Pharmacy.objects.all()
+    serialized_data = PharmacySerializer(pharmas, many=True).data
+    group_choices = set(item['group'] for item in serialized_data)
+    pharma_choices = set(item['pharma_name'] for item in serialized_data)
 
-    pharmacy = forms.ModelChoiceField(queryset=Pharmacy.objects.all().values_list('pharma_name', flat=True).distinct(),
-                                      label='PHARMACIE')
+    type = forms.ChoiceField(choices=TYPE_CHOICES, label='TYPE')
+    group = forms.ChoiceField(choices=[(choice, choice) for choice in group_choices], label='GROUPE')
+
+    pharmacy = forms.ChoiceField(choices=[(choice, choice) for choice in pharma_choices], label='PHARMACIE')

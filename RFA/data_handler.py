@@ -17,16 +17,8 @@ class DataHandler:
     file_name = 'exemple-data-rfa.csv'
     df = None
 
-    def file_to_db(self):
-        self.df = pd.read_csv(self.file_name)
-        for index, row in self.df.iterrows():
-            pharma = Pharmacy(name=row.get('PHARMA'), group=row['GROUPE'], labo_name=row['LABO'],
-                              type=row.get('TYPE'), subtype=row['SOUS-TYPE'], ca=row['CA'],
-            )
-            # Save the Pharmacy object
-            pharma.save()
 
-    def file_to_db_2(self):
+    def file_to_db(self):
         product_names, previous_year, curr_year = self.parse_excel()
         for index, row in self.df.iterrows():
             if index % 10 == 0:
@@ -36,7 +28,7 @@ class DataHandler:
                 p = Pharmacy(cip=row['CIP'], pharma_name=row['pharma_name'],
                              subtype=product.replace('gamme_', '').replace('_', ' '),
                              unit=row.get(f'{product}_unit_1'), year=curr_year, ca=row.get(f'{product}_ca_1'),
-                             type=self.get_type(product), labo_name=row['labo_name'])
+                             type=self.get_type(product), group=row['group'])
 
                 # Compute Evolution
                 p.unit_evolution = row.get(f'{product}_unit_1') / row.get(f'{product}_unit_0') \
@@ -49,7 +41,7 @@ class DataHandler:
                 p = Pharmacy(cip=row['CIP'], pharma_name=row['pharma_name'],
                              subtype=product.replace('gamme_', '').replace('_', ' '),
                              unit=row.get(f'{product}_unit_0'), year=previous_year, ca=row.get(f'{product}_ca_0'),
-                             type=self.get_type(product), labo_name=row['labo_name'])
+                             type=self.get_type(product), group=row['group'])
                 p.save()
 
     @staticmethod
@@ -66,14 +58,15 @@ class DataHandler:
                                 sheet_name='suivi obj ', skiprows=5)
         self.df.dropna(subset=["CIP"], inplace=True)
         self.df.rename(columns={self.df.columns[2]: "pharma_name"}, inplace=True)
-        self.df.rename(columns={self.df.columns[-1]: 'labo_name'}, inplace=True)
+        self.df.rename(columns={self.df.columns[-1]: 'group'}, inplace=True)
         self.rename_columns(products_names)
 
         # Convert CA and Unite columns to be integer
         columns_to_convert = [col for col in self.df.columns if self.is_integer_column(col)]
         self.df[columns_to_convert] = self.df[columns_to_convert].astype(int)
-        self.df = self.df[['CIP', 'pharma_name', 'labo_name'] + columns_to_convert]
+        self.df = self.df[['CIP', 'pharma_name', 'group'] + columns_to_convert]
         return products_names, previous_year, curr_year
+
     def get_products_name_and_years(self):
         # Find all products names
         products_names = pd.read_excel('bilan COS + CPC pour 2018 nov 2017 envoi (2).xlsx', sheet_name='suivi obj ',
@@ -121,4 +114,4 @@ class DataHandler:
 
 if __name__ == '__main__':
     dh = DataHandler()
-    dh.file_to_db_2()
+    dh.file_to_db()
