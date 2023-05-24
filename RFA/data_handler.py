@@ -35,9 +35,9 @@ class DataHandler:
             for product in product_names:
                 # Current year data
                 p = Pharmacy(cip=row['CIP'], pharma_name=row['pharma_name'],
-                             product=product.replace('gamme_', '').replace('_', ' '),
+                             subtype=product.replace('gamme_', '').replace('_', ' '),
                              unit=row.get(f'{product}_unit_1'), year=curr_year, ca=row.get(f'{product}_ca_1'),
-                             type=self.get_type(product))
+                             type=self.get_type(product), labo_name=row['labo_name'])
 
                 # Compute Evolution
                 p.unit_evolution = row.get(f'{product}_unit_1') / row.get(f'{product}_unit_0') \
@@ -48,9 +48,9 @@ class DataHandler:
 
                 # Previous year data
                 p = Pharmacy(cip=row['CIP'], pharma_name=row['pharma_name'],
-                             product=product.replace('gamme_', '').replace('_', ' '),
+                             subtype=product.replace('gamme_', '').replace('_', ' '),
                              unit=row.get(f'{product}_unit_0'), year=previous_year, ca=row.get(f'{product}_ca_0'),
-                             type=self.get_type(product))
+                             type=self.get_type(product), labo_name=row['labo_name'])
                 p.save()
 
     @staticmethod
@@ -67,12 +67,13 @@ class DataHandler:
                                 sheet_name='suivi obj ', skiprows=5)
         self.df.dropna(subset=["CIP"], inplace=True)
         self.df.rename(columns={self.df.columns[2]: "pharma_name"}, inplace=True)
+        self.df.rename(columns={self.df.columns[-1]: 'labo_name'}, inplace=True)
         self.rename_columns(products_names)
 
         # Convert CA and Unite columns to be integer
         columns_to_convert = [col for col in self.df.columns if self.is_integer_column(col)]
         self.df[columns_to_convert] = self.df[columns_to_convert].astype(int)
-        self.df = self.df[['CIP', 'pharma_name'] + columns_to_convert]
+        self.df = self.df[['CIP', 'pharma_name', 'labo_name'] + columns_to_convert]
         return products_names, previous_year, curr_year
     def get_products_name_and_years(self):
         # Find all products names
