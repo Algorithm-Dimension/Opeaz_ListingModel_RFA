@@ -22,7 +22,6 @@ class DataHandler:
         for index, row in self.df.iterrows():
             pharma = Pharmacy(name=row.get('PHARMA'), group=row['GROUPE'], labo_name=row['LABO'],
                               type=row.get('TYPE'), subtype=row['SOUS-TYPE'], ca=row['CA'],
-                              start_date=row.get('DEBUT'), end_date=row.get('FIN')
             )
             # Save the Pharmacy object
             pharma.save()

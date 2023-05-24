@@ -41,8 +41,6 @@ class Pharmacy(models.Model):
     ca = models.IntegerField(null=True)
     unit = models.IntegerField(null=True)
     year = models.IntegerField(null=True)
-    start_date = models.DateTimeField(null=True)
-    end_date = models.DateTimeField(null=True)
     unit_evolution = models.FloatField(null=True)
     ca_evolution = models.FloatField(null=True)
 
@@ -50,31 +48,29 @@ class Pharmacy(models.Model):
 class SimpleCondition(models.Model):
     what = models.CharField(max_length=100, choices=WHAT_CHOICES, verbose_name='Quoi', default='CA')
     who = models.CharField(max_length=100, choices=WHO_CHOICES, null=True, verbose_name='Qui', blank=True)
+    first_year = models.IntegerField(null=True, verbose_name='Annee 1', blank=True)
     type = models.CharField(max_length=100, choices=TYPE_CHOICES, null=True, verbose_name='Type', blank=True)
     operator = models.CharField(max_length=100, choices=OPERATOR_CHOICES, null=True, verbose_name='Opérateur',
                                 blank=True)
     quantity = models.FloatField(verbose_name='Quantité', null=True, blank=True)
+    second_year = models.IntegerField(null=True, verbose_name='Annee 2', blank=True)
     unit = models.CharField(max_length=100, choices=UNIT_CHOICES, null=True, verbose_name='Unité', blank=True)
-    start_date = models.DateField(null=True, verbose_name='Date de début', blank=True)
-    end_date = models.DateField(null=True, verbose_name='Date de fin', blank=True)
-    rate_reduction = models.FloatField(null=True, verbose_name='Taux de remise', blank=True)
+    rate_reduction = models.FloatField(null=True, verbose_name='RFA', blank=True)
 
 
 class ComparativeCondition(models.Model):
     first_what = models.CharField(max_length=100, choices=WHAT_CHOICES, verbose_name='Quoi 1', default='CA')
-    first_start_date = models.DateField(null=True, verbose_name='Date de début 1', blank=True)
-    first_end_date = models.DateField(null=True, verbose_name='Date de fin 1', blank=True)
+    first_year = models.IntegerField(null=True, verbose_name='Annee 1', blank=True)
     operator = models.CharField(max_length=100, choices=OPERATOR_CHOICES, null=True, verbose_name='Opérateur',
                                 blank=True)
     quantity = models.FloatField(verbose_name='Quantité', null=True, blank=True)
     second_what = models.CharField(max_length=100, choices=WHAT_CHOICES, verbose_name='Quoi 2', default='CA')
-    second_start_date = models.DateField(null=True, verbose_name='Date de début 2', blank=True)
-    second_end_date = models.DateField(null=True, verbose_name='Date de fin 2', blank=True)
-    rate_reduction = models.FloatField(null=True, verbose_name='Taux de remise', blank=True)
+    second_year = models.IntegerField(null=True, verbose_name='Annee 2', blank=True)
+    rate_reduction = models.FloatField(null=True, verbose_name='RFA', blank=True)
 
 
 class NoCondition(models.Model):
-    rate_reduction = models.FloatField(null=True, verbose_name='Taux de remise', blank=True)
+    rate_reduction = models.FloatField(null=True, verbose_name='RFA', blank=True)
     who = models.CharField(max_length=100, choices=WHO_CHOICES, null=True, verbose_name='Qui', blank=True)
-    start_date = models.DateField(null=True, verbose_name='Date de début 1', blank=True)
-    end_date = models.DateField(null=True, verbose_name='Date de fin 2', blank=True)
+    first_year = models.IntegerField(null=True, verbose_name='Annee 1', blank=True)
+    second_year = models.IntegerField(null=True, verbose_name='Annee 3', blank=True)
