@@ -7,3 +7,9 @@ class PharmacySerializer(serializers.ModelSerializer):
     class Meta:
         model = Pharmacy
         fields = '__all__'
+
+
+class SubtypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Pharmacy
+        fields = ['subtype']

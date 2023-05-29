@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from .forms import SimpleConditionForm, ComparativeConditionForm, PharmaForm, NoConditionForm
 from .models import Pharmacy
-from .serializers import PharmacySerializer
+from .serializers import PharmacySerializer, SubtypeSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -32,6 +32,24 @@ class PharmaListApiView(APIView):
         pharmas = Pharmacy.objects.filter(**data)
         serializer = PharmacySerializer(pharmas, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class SubtypeListApiView(APIView):
+    def get(self, request, subtype):
+        pharmas = Pharmacy.objects.filter(type=subtype)
+        serializer = SubtypeSerializer(pharmas, many=True)
+        data = set(d['subtype'] for d in serializer.data)
+        return Response(data, status=status.HTTP_200_OK)
+
+
+class GammesListApiView(APIView):
+
+    def get(self, request):
+        pharmas = Pharmacy.objects.filter(type='gamme')
+        serializer = SubtypeSerializer(pharmas, many=True)
+        data = set(d['subtype'] for d in serializer.data)
+        return Response(data, status=status.HTTP_200_OK)
+
 
 
 def filtres_page(request):

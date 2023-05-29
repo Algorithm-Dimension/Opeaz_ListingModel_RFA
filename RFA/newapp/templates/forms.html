@@ -1,7 +1,7 @@
 <script>
 
   $(document).ready(function() {
-
+  console.log('coucou');
   // Disable group and pharmacy choice before choosing the type
     disableButton('id_pharmacy');
 
@@ -55,6 +55,7 @@
       var fieldId = $(this).attr('id');
       $(this).attr('id', fieldId + '_' + formCount);
     });
+
       formCount++;
     }
 
@@ -119,12 +120,15 @@ function clickOnAddForm(simpleFormHTML, width) {
   }
   $('#add-simple').click(function() {
     var simpleFormHTML = `{{ simple_condition_form.as_table }}`;
-    clickOnAddForm(simpleFormHTML, 1050);
+    clickOnAddForm(simpleFormHTML, 1250);
+    changeSubtype('simple', (parseInt(formCount) - 1));
   });
 
   $('#add-comparative').click(function() {
     var comparativeFormHTML = `{{ comparative_condition_form.as_table }}`;
     clickOnAddForm(comparativeFormHTML, 1300);
+    changeSubtype('comp', (parseInt(formCount) - 1));
+
   });
 
   $('#add-no-condition').click(function() {
@@ -141,7 +145,33 @@ function clickOnAddForm(simpleFormHTML, width) {
     btnValue = "OU";
 
   });
-});
+      function changeSubtype(prefix, index) {
+      $('#id_' + prefix + '_who_' + index).on('change', function(){
+      var selectedValue = $(this).val();
 
+    var formIndex = parseInt($(this).attr('id').split('_').pop());  // Get the index of the current form
 
-</script>
+    var subtypeField = $('#' + 'id_' + prefix + '_subtype_' + index);
+    $.ajax({
+      url: '/api/subtypes/' + selectedValue,
+      type: 'GET',
+      dataType: 'json',
+      success: function(data) {
+        var uniqueChoices = Array.from(new Set(data));
+                console.log('Unique Choices:', uniqueChoices);
+          subtypeField.empty();
+
+        $.each(uniqueChoices, function(index, choice) {
+          addOption(subtypeField, choice);
+        });
+      }
+    });
+  });
+
+  function addOption(field, choice) {
+    field.append($('<option></option>').attr('value', choice).text(choice));
+  }
+}
+
+    });
+  </script>
