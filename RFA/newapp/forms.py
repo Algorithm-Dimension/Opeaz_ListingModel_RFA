@@ -15,6 +15,18 @@ class DateInput(forms.DateInput):
 
 class SimpleConditionForm(ModelForm):
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields['subtype'].choices = self.get_type_choices()
+        for field_name in self.fields:
+            if field_name != 'who':
+                self.fields[field_name].required = True
+
+    def get_type_choices(self):
+        type_choices = Pharmacy.objects.values_list('subtype', 'subtype').distinct()
+        return type_choices
+
     class Meta:
         model = SimpleCondition
         fields = '__all__'

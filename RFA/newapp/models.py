@@ -47,14 +47,15 @@ class Pharmacy(models.Model):
 
 class SimpleCondition(models.Model):
     what = models.CharField(max_length=100, choices=WHAT_CHOICES, verbose_name='Quoi', default='CA')
-    who = models.CharField(max_length=100, choices=WHO_CHOICES, null=True, verbose_name='Qui', blank=True)
+    who = models.CharField(max_length=100, choices=WHO_CHOICES, verbose_name='Qui', blank=True)
     first_year = models.IntegerField(null=True, verbose_name='Annee 1', blank=True)
-    type = models.CharField(max_length=100, choices=TYPE_CHOICES, null=True, verbose_name='Type', blank=True)
+    subtype = models.CharField(max_length=100, choices=TYPE_CHOICES, null=True, verbose_name='Type', blank=True)
     operator = models.CharField(max_length=100, choices=OPERATOR_CHOICES, null=True, verbose_name='Opérateur',
                                 blank=True)
     quantity = models.FloatField(verbose_name='Quantité', null=True, blank=True)
     second_year = models.IntegerField(null=True, verbose_name='Annee 2', blank=True)
-    unit = models.CharField(max_length=100, choices=UNIT_CHOICES, null=True, verbose_name='Unité', blank=True)
+    unit = models.CharField(max_length=100, choices=UNIT_CHOICES, null=True, verbose_name='Unité',
+                            blank=True, default='currency')
     rate_reduction = models.FloatField(null=True, verbose_name='RFA', blank=True)
 
 

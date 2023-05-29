@@ -1,3 +1,5 @@
+import re
+
 from django.http import HttpResponse
 from django.shortcuts import render
 from .forms import SimpleConditionForm, ComparativeConditionForm, PharmaForm, NoConditionForm
@@ -37,6 +39,18 @@ def filtres_page(request):
     simple_condition_form = SimpleConditionForm()
     comparative_condition_form = ComparativeConditionForm()
     no_condition_form = NoConditionForm()
+
+    if request.POST:
+        conditions_number = max([int(re.findall(r'\d+', k)[0]) for k in request.POST if re.findall(r'\d+', k)])
+        for i in range(conditions_number):
+            data = {k.split('_')[1]: v for k, v in request.POST.items() if k.endswith(f'{i + 1}')}
+            what = data.get("what", "").lower()
+            operator = data.get("operator", "")
+            condition = {f'{what}__{operator}' if operator != 'eq' else what: data.get("quantity", ""),
+                         "year": data.get("first", ""),
+                         'subtype': data.get("subtype", "")}
+            pharmas = Pharmacy.objects.filter(**condition)
+            print(request.POST)
 
     return render(request, 'filtres.html', {
                                             'simple_condition_form': simple_condition_form,
