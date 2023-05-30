@@ -1,0 +1,30 @@
+{% load static %}
+
+<head> <link rel="stylesheet" href="{% static 'style.css' %}">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+</head>
+<body>
+{% if rfa %}
+  <h4>Vous êtes éligibles à un RFA de {{ rfa }} %</h4>
+{% else %}
+  <h4>Vous n'êtes pas eligibles au RFA. </h4>
+{% endif %}
+    <br> <br>
+  <button type="button" id="add-no-condition" class="btn" style="width: 170px;" onclick="refreshPage()">
+  Calculer nouveau RFA </button>
+
+
+<script>
+  function refreshPage() {
+<!--    location.reload();-->
+        var currentURL = window.location.href;  // Get the current URL
+<!--    var baseURL = currentURL.split('?')[0];  // Extract the base URL without query parameters-->
+<!--    var newURL = baseURL + endpoint;  // Append the new endpoint to the base URL-->
+    window.location.href = currentURL;
+  }
+</script>
+
+
+
+</body>

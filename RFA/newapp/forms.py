@@ -41,6 +41,11 @@ class ComparativeConditionForm(ModelForm):
         model = ComparativeCondition
         fields = '__all__'
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field_name in self.fields:
+            if field_name != 'who':
+                self.fields[field_name].required = True
 
     def add_prefix(self, field_name):
         return f'comp_{field_name}'

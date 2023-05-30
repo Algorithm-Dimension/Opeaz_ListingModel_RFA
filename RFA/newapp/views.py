@@ -42,16 +42,6 @@ class SubtypeListApiView(APIView):
         return Response(data, status=status.HTTP_200_OK)
 
 
-class GammesListApiView(APIView):
-
-    def get(self, request):
-        pharmas = Pharmacy.objects.filter(type='gamme')
-        serializer = SubtypeSerializer(pharmas, many=True)
-        data = set(d['subtype'] for d in serializer.data)
-        return Response(data, status=status.HTTP_200_OK)
-
-
-
 def filtres_page(request):
     pharma_form = PharmaForm()
     simple_condition_form = SimpleConditionForm()
@@ -60,15 +50,25 @@ def filtres_page(request):
 
     if request.POST:
         conditions_number = max([int(re.findall(r'\d+', k)[0]) for k in request.POST if re.findall(r'\d+', k)])
+        base_condition = {'pharma_name': request.POST.get('pharmacy')} if 'pharmacy' in request.POST \
+            else {'group': request.POST.get('group')}
+        pharmas, rfa = set(), 0
         for i in range(conditions_number):
+            condition = {}
             data = {k.split('_')[1]: v for k, v in request.POST.items() if k.endswith(f'{i + 1}')}
-            what = data.get("what", "").lower()
-            operator = data.get("operator", "")
-            condition = {f'{what}__{operator}' if operator != 'eq' else what: data.get("quantity", ""),
-                         "year": data.get("first", ""),
-                         'subtype': data.get("subtype", "")}
-            pharmas = Pharmacy.objects.filter(**condition)
+            if any('simple' in k for k in request.POST if k.endswith(f'{i + 1}')):
+                condition = base_condition | get_simple_condition_data(data)
+            if any('comp' in k for k in request.POST if k.endswith(f'{i + 1}')):
+                condition = base_condition | get_comparative_condition_data(data)
+            if data.get('type') == 'ET':
+                pharmas = list(pharmas & set([p.pharma_name for p in Pharmacy.objects.filter(**condition)]))
+            elif data.get('type') == 'OU':
+                pharmas = list(pharmas | set([p.pharma_name for p in Pharmacy.objects.filter(**condition)]))
+            else:
+                pharmas = set([p.pharma_name for p in Pharmacy.objects.filter(**condition)])
+            rfa = max(rfa, int(data.get('rate', 0)))
             print(request.POST)
+        return render(request, 'results.html', {'rfa': rfa if pharmas else None})
 
     return render(request, 'filtres.html', {
                                             'simple_condition_form': simple_condition_form,
@@ -77,4 +77,20 @@ def filtres_page(request):
                                             'no_condition_form': no_condition_form,
                                             }
                   )
+
+
+def get_simple_condition_data(data):
+    what = data.get("what", "").lower()
+    operator = data.get("operator", "")
+    return {f'{what}__{operator}' if operator != 'eq' else what: data.get("quantity", ""),
+            "year": data.get("year", ""),
+            'subtype': data.get("subtype", "")}
+
+
+def get_comparative_condition_data(data):
+    what = data.get("what", "").lower()
+    operator = data.get("operator", "")
+    return {f'{what}_evolution__{operator}' if operator != 'eq' else f'{what}_evolution': data.get("quantity", ""),
+            "year": max(data.get("first"), data.get('second')),
+            'subtype': data.get("subtype", "")}
 

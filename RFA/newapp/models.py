@@ -60,7 +60,7 @@ class SimpleCondition(models.Model):
 
 
 class ComparativeCondition(models.Model):
-    first_what = models.CharField(max_length=100, choices=WHAT_CHOICES, verbose_name='Quoi 1', default='CA')
+    what = models.CharField(max_length=100, choices=WHAT_CHOICES, verbose_name='Quoi 1', default='CA')
     who = models.CharField(max_length=100, choices=WHO_CHOICES, verbose_name='Qui', blank=True)
     subtype = models.CharField(max_length=100, choices=TYPE_CHOICES, null=True, verbose_name='Type', blank=True)
 
@@ -68,7 +68,6 @@ class ComparativeCondition(models.Model):
     operator = models.CharField(max_length=100, choices=OPERATOR_CHOICES, null=True, verbose_name='Opérateur',
                                 blank=True)
     quantity = models.FloatField(verbose_name='Quantité', null=True, blank=True)
-    second_what = models.CharField(max_length=100, choices=WHAT_CHOICES, verbose_name='Quoi 2', default='CA')
     second_year = models.IntegerField(null=True, verbose_name='Annee 2', blank=True)
     rate_reduction = models.FloatField(null=True, verbose_name='RFA', blank=True)
 
